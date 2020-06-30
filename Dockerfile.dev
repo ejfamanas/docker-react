@@ -1,0 +1,14 @@
+# Add in base operating system image
+FROM alpine
+# create and set the new working director
+WORKDIR /app
+# Install some dependencies
+RUN apk add --update nodejs
+RUN apk add --update npm
+# Copy files from local machine
+COPY ./package.json ./
+# Install package.json dependencies
+RUN npm install
+COPY ./ ./
+# execute
+CMD [ "npm", "start" ]
