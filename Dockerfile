@@ -1,17 +1,17 @@
 # ------ BUILD PHASE ------ #
 # Add in base operating system image
-FROM alpine as builder
+FROM alpine
 # create and set the new working director
-WORKDIR /app
+WORKDIR '/app'
 # Install some dependencies
 RUN apk add --update nodejs
 RUN apk add --update npm
 # Copy package.json from local machine
-COPY ./package.json ./
+COPY package*.json ./
 # Install package.json dependencies
 RUN npm install
 # Copy files over
-COPY ./ ./
+COPY . .
 # execute
 RUN npm run build
 # ------ PRODUCTION PHASE ------ #
@@ -19,5 +19,5 @@ FROM nginx
 # exposes port 80 for cloud provision
 EXPOSE 80
 # copy from the previous phase into nginx directory
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=0 /app/build /usr/share/nginx/html
 
