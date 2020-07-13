@@ -16,6 +16,8 @@ COPY ./ ./
 RUN npm run build
 # ------ PRODUCTION PHASE ------ #
 FROM nginx
+# exposes port 80 for cloud provision
+EXPOSE 80
 # copy from the previous phase into nginx directory
 COPY --from=builder /app/build /usr/share/nginx/html
 
